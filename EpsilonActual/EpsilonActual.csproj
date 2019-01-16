@@ -181,5 +181,23 @@
   <ItemGroup>
     <None Include="Resources\walk R.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slime L.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slime LC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slime LJ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slime R.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slime RC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slime RJ.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

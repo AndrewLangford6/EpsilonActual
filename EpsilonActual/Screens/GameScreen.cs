@@ -29,17 +29,22 @@ namespace EpsilonActual
         }
 
         //TODO create your global game variables here
-        int heroX, heroY, heroSize, heroSpeed, gravity, ground1Y, ground1X, groundEnd1;
+        int heroX, heroY, heroSize, heroSpeed, gravity, sGravity, ground1Y, ground1X, groundEnd1, sX, sY, sW, sH, sSpeed, sRange;
         int i = 0;
         int walkCounterR = 0;
         int walkCounterL = 0;
         int jumpSpeed;
+        int sJumpSpeed = 8;
         bool facingR = true;
         bool jumping = false;
+        bool sJumping = false;
+        bool sChase = false;
+
+        bool sFacingR = true;
         SolidBrush heroBrush = new SolidBrush(Color.Black);
         SolidBrush groundBrush = new SolidBrush(Color.Brown);
 
-       // SoundPlayer gamePlayer = new SoundPlayer(Properties.Resources.Quiet);
+        // SoundPlayer gamePlayer = new SoundPlayer(Properties.Resources.Quiet);
 
 
 
@@ -62,6 +67,14 @@ namespace EpsilonActual
             heroX = this.Width / 2 - (heroSize / 2);
             heroY = 0;
             heroSpeed = 10;
+
+            sX = 250;
+            sY = 100;
+            sW = 32;
+            sH = 16;
+            sSpeed = 10;
+            sRange = 32;
+
 
 
             gravity = 8;
@@ -182,6 +195,7 @@ namespace EpsilonActual
             }
             if (leftArrowDown == true)
             {
+                sX = sX + heroSpeed;
                 ground1X = ground1X + heroSpeed;
                 facingR = false;
             }
@@ -191,6 +205,7 @@ namespace EpsilonActual
             }
             if (rightArrowDown == true)
             {
+                sX = sX - heroSpeed;
                 ground1X = ground1X - heroSpeed;
                 facingR = true;
             }
@@ -211,13 +226,41 @@ namespace EpsilonActual
 
             //TODO move npc characters
 
-            List<Rectangle> groundRec = new List<Rectangle>();
-            groundRec.Add(new Rectangle(ground1X, ground1Y, groundEnd1, ground1Y));
 
-            for (int i = 0; i < groundRec.Count(); i++)
+
+            if (heroX + heroSize < sX)
+            {
+                sFacingR = false;
+                sJumping = true;
+
+                sX = sX - 2;
+                
+            }
+            
+            if (sJumping)
+            {
+                sJumpSpeed = -8;
+                sGravity--;
+            }
+            if (sJumping && sGravity < 0)
+            {
+                sJumping = false;
+            }
+            else
+            {
+                sJumpSpeed = 8;
+            }
+            sY = sY + sJumpSpeed;
+            List<int> slimeX = new List<int>();
+
+
+            for (int i = 0; i < slimeX.Count(); i++)
             {
 
+
             }
+
+            //slimeX.Add(new Rectangle(sX, sY, sW, sH));
 
 
 
@@ -225,9 +268,32 @@ namespace EpsilonActual
 
             //TODO collisions checks 
 
+            //slime
+            if (sX > ground1X - sW && sX < ground1X + groundEnd1)
+            {
+                if (sY > ground1Y && sX > ground1X - sX && sX < ground1X + groundEnd1 && sFacingR == true)
+                {
+                    sX = ground1X - sX + 16;
+                    rightArrowDown = false;
+                }
+                else if (sY > ground1Y && sX > ground1X - sX && sX < ground1X + groundEnd1 && sFacingR == false)
+                {
+                    sX = ground1X + groundEnd1 - 16;
+                    leftArrowDown = false;
+                }
+                else if (sY > ground1Y - sH)
+                {
+                    sY = ground1Y - sH;
+                }
+
+                if (sY == ground1Y - sH && !sJumping)
+                {
+                    gravity = 8;
+                }
 
 
-
+            }
+            //hero
             if (heroX > ground1X - heroSize && heroX < ground1X + groundEnd1)
             {
                 if (heroY > ground1Y && heroX > ground1X - heroSize && heroX < ground1X + groundEnd1 && facingR == true)
@@ -263,7 +329,7 @@ namespace EpsilonActual
         {
 
             //draw rectangle to screen
-
+            Rectangle slimeRec = new Rectangle(sX, sY, sW, sH);
             Rectangle heroRec = new Rectangle(heroX, heroY, heroSize, heroSize);
             Rectangle groundRec = new Rectangle(ground1X, ground1Y, groundEnd1, ground1Y);
 
@@ -349,6 +415,7 @@ namespace EpsilonActual
                     }
                 }
             }
+            e.Graphics.DrawImage(Properties.Resources.slime_L, sX, sY, sW, sH);
             e.Graphics.DrawImage(Properties.Resources.FLOOR, ground1X, ground1Y - 10, groundEnd1, ground1Y);
         }
     }
