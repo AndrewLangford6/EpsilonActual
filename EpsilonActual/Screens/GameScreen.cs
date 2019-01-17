@@ -22,6 +22,9 @@ namespace EpsilonActual
         Boolean aDown, sDown, dDown, wDown, cDown, vDown, xDown, zDown;
 
 
+        List<Slime> slimeList = new List<Slime>();
+
+
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
@@ -30,17 +33,13 @@ namespace EpsilonActual
 
         //TODO create your global game variables here
         int heroX, heroY, heroSize, heroSpeed, gravity, sGravity, ground1Y, ground1X, groundEnd1, sX, sY, sW, sH, sSpeed, sRange;
-        int i = 0;
+
         int walkCounterR = 0;
         int walkCounterL = 0;
         int jumpSpeed;
-        int sJumpSpeed = 8;
+
         bool facingR = true;
         bool jumping = false;
-        bool sJumping = false;
-        bool sChase = false;
-
-        bool sFacingR = true;
         SolidBrush heroBrush = new SolidBrush(Color.Black);
         SolidBrush groundBrush = new SolidBrush(Color.Brown);
 
@@ -54,6 +53,10 @@ namespace EpsilonActual
         {
             InitializeComponent();
             InitializeGameValues();
+            Slime Slime1 = new Slime(sX, sY, sH, sW, sSpeed, sRange);
+            Slime Slime2 = new Slime(sX, sY - 100, sH, sW, sSpeed, sRange);
+            slimeList.Add(Slime1);
+            slimeList.Add(Slime2);
             //gamePlayer.PlayLooping();
 
         }
@@ -74,6 +77,7 @@ namespace EpsilonActual
             sH = 16;
             sSpeed = 10;
             sRange = 32;
+
 
 
 
@@ -174,7 +178,13 @@ namespace EpsilonActual
         {
             walkCounterL++;
             walkCounterR++;
-            Graphics g = this.CreateGraphics();
+
+            foreach (Slime slime in slimeList)
+            {
+                slime.sJumpingCounter++;
+            }
+
+
 
             //TODO move main character 
             if (heroY > this.Height)
@@ -185,17 +195,17 @@ namespace EpsilonActual
                 //gamePlayer.Stop();
                 rightArrowDown = leftArrowDown = spaceDown = downArrowDown = false;
             }
-            if (gravity < 4)
-            {
-                gravity = gravity - (1 / 2);
-            }
             if (jumping && gravity < 0)
             {
                 jumping = false;
             }
             if (leftArrowDown == true)
             {
-                sX = sX + heroSpeed;
+                foreach (Slime slime in slimeList)
+                {
+                    slime.sX = slime.sX + heroSpeed;
+                }
+
                 ground1X = ground1X + heroSpeed;
                 facingR = false;
             }
@@ -205,7 +215,10 @@ namespace EpsilonActual
             }
             if (rightArrowDown == true)
             {
-                sX = sX - heroSpeed;
+                foreach (Slime slime in slimeList)
+                {
+                    slime.sX = slime.sX - heroSpeed;
+                }
                 ground1X = ground1X - heroSpeed;
                 facingR = true;
             }
@@ -228,37 +241,8 @@ namespace EpsilonActual
 
 
 
-            if (heroX + heroSize < sX)
-            {
-                sFacingR = false;
-                sJumping = true;
-
-                sX = sX - 2;
-                
-            }
-            
-            if (sJumping)
-            {
-                sJumpSpeed = -8;
-                sGravity--;
-            }
-            if (sJumping && sGravity < 0)
-            {
-                sJumping = false;
-            }
-            else
-            {
-                sJumpSpeed = 8;
-            }
-            sY = sY + sJumpSpeed;
-            List<int> slimeX = new List<int>();
 
 
-            for (int i = 0; i < slimeX.Count(); i++)
-            {
-
-
-            }
 
             //slimeX.Add(new Rectangle(sX, sY, sW, sH));
 
@@ -268,31 +252,8 @@ namespace EpsilonActual
 
             //TODO collisions checks 
 
-            //slime
-            if (sX > ground1X - sW && sX < ground1X + groundEnd1)
-            {
-                if (sY > ground1Y && sX > ground1X - sX && sX < ground1X + groundEnd1 && sFacingR == true)
-                {
-                    sX = ground1X - sX + 16;
-                    rightArrowDown = false;
-                }
-                else if (sY > ground1Y && sX > ground1X - sX && sX < ground1X + groundEnd1 && sFacingR == false)
-                {
-                    sX = ground1X + groundEnd1 - 16;
-                    leftArrowDown = false;
-                }
-                else if (sY > ground1Y - sH)
-                {
-                    sY = ground1Y - sH;
-                }
-
-                if (sY == ground1Y - sH && !sJumping)
-                {
-                    gravity = 8;
-                }
 
 
-            }
             //hero
             if (heroX > ground1X - heroSize && heroX < ground1X + groundEnd1)
             {
@@ -329,7 +290,103 @@ namespace EpsilonActual
         {
 
             //draw rectangle to screen
-            Rectangle slimeRec = new Rectangle(sX, sY, sW, sH);
+            foreach (Slime slime in slimeList)
+            {
+                Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
+
+                if (heroX + heroSize / 2 > slime.sX && slime.sY == ground1Y - slime.sH)
+                {
+                    slime.sFacingR = true;
+
+
+                }
+                if (heroX + heroSize / 2 < slime.sX && slime.sY == ground1Y - slime.sH)
+                {
+                    slime.sFacingR = false;
+                }
+                if (slime.sJumping && slime.sGravity < 0)
+                {
+                    slime.sJumping = false;
+                }
+                if (slime.sJumping && !slime.sFacingR)
+                {
+                    slime.sX = slime.sX - 2;
+                    slime.sJumpSpeed = -6;
+                    slime.sGravity--;
+                }
+                else if (slime.sJumping && slime.sFacingR)
+                {
+                    slime.sX = slime.sX + 2;
+                    slime.sJumpSpeed = -6;
+                    slime.sGravity--;
+                }
+                else
+                {
+                    slime.sJumpSpeed = 6;
+                }
+                if (!slime.sJumping && !(slime.sY == ground1Y - slime.sH) && slime.sFacingR)
+                {
+
+                    slime.sX = slime.sX + 2;
+                }
+                else if (!slime.sJumping && !(slime.sY == ground1Y - slime.sH) && !slime.sFacingR)
+                {
+                    slime.sX = slime.sX - 2;
+                }
+
+                slime.sY = slime.sY + slime.sJumpSpeed;
+
+                if (slime.sX > ground1X - slime.sW && slime.sX < ground1X + groundEnd1)
+                {
+                    if (slime.sY > ground1Y && slime.sX > ground1X - slime.sX && slime.sX < ground1X + groundEnd1 && slime.sFacingR == true)
+                    {
+                        slime.sX = ground1X - slime.sX + 16;
+                        rightArrowDown = false;
+                    }
+                    else if (slime.sY > ground1Y && slime.sX > ground1X - slime.sX && slime.sX < ground1X + groundEnd1 && slime.sFacingR == false)
+                    {
+                        slime.sX = ground1X + groundEnd1 - 16;
+                        leftArrowDown = false;
+                    }
+                    else if (slime.sY > ground1Y - slime.sH && slime.sFacingR)
+                    {
+                        slime.sY = ground1Y - slime.sH;
+
+
+                    }
+                    else if (slime.sY > ground1Y - slime.sH && !slime.sFacingR)
+                    {
+                        slime.sY = ground1Y - slime.sH;
+
+
+                    }
+                    if (slime.sY == ground1Y - slime.sH && !slime.sJumping)
+                    {
+                        if (slime.sJumpingCounter > 40)
+                        {
+                            slime.sJumpingCounter = 0;
+                            slime.sJumping = true;
+                        }
+                        sGravity = 8;
+                    }
+                }
+                //draw slime
+                if (slime.sFacingR == false && slime.sJumpingCounter < 100)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.slime_LC, slime.sX, slime.sY, slime.sW, slime.sH);
+                }
+                else if (slime.sFacingR == false && slime.sJumpingCounter < 200)
+                {
+
+                    e.Graphics.DrawImage(Properties.Resources.slime_LJ, slime.sX, slime.sY, slime.sW, slime.sH);
+
+                }
+                if (slime.sFacingR == true)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.slime_RJ, slime.sX, slime.sY, slime.sW, slime.sH);
+                }
+            }
+
             Rectangle heroRec = new Rectangle(heroX, heroY, heroSize, heroSize);
             Rectangle groundRec = new Rectangle(ground1X, ground1Y, groundEnd1, ground1Y);
 
@@ -415,7 +472,10 @@ namespace EpsilonActual
                     }
                 }
             }
-            e.Graphics.DrawImage(Properties.Resources.slime_L, sX, sY, sW, sH);
+
+
+
+
             e.Graphics.DrawImage(Properties.Resources.FLOOR, ground1X, ground1Y - 10, groundEnd1, ground1Y);
         }
     }
