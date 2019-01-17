@@ -9,16 +9,14 @@ namespace EpsilonActual
     public class Slime
     {
         
-        public int sX,sY, sH, sW,sSpeed,sRange;
+        public int sX,sY, sH, sW, sSpeed, sRange;
 
         public bool sJumping = false;
-
         public bool sFacingR = true;
 
         public int sJumpingCounter = 0;
         public int sJumpSpeed = 6;
         public int sGravity = 8;
-
 
         public Slime(int x, int y, int h, int w, int s, int r)
         {

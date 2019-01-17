@@ -53,10 +53,14 @@ namespace EpsilonActual
         {
             InitializeComponent();
             InitializeGameValues();
-            Slime Slime1 = new Slime(sX, sY, sH, sW, sSpeed, sRange);
-            Slime Slime2 = new Slime(sX, sY - 100, sH, sW, sSpeed, sRange);
+            
+                Slime Slime1 = new Slime(sX, sY, sH, sW, sSpeed, sRange);
+            Slime Slime2 = new Slime(sX - 200, sY, sH, sW, sSpeed, sRange);
+            Slime Slime3 = new Slime(sX - 100, sY, sH, sW, sSpeed, sRange);
             slimeList.Add(Slime1);
             slimeList.Add(Slime2);
+            slimeList.Add(Slime3);
+
             //gamePlayer.PlayLooping();
 
         }
@@ -77,9 +81,6 @@ namespace EpsilonActual
             sH = 16;
             sSpeed = 10;
             sRange = 32;
-
-
-
 
             gravity = 8;
             ground1Y = 200;
@@ -169,6 +170,8 @@ namespace EpsilonActual
             }
         }
 
+
+
         /// <summary>
         /// This is the Game Engine and repeats on each interval of the timer. For example
         /// if the interval is set to 16 then it will run each 16ms or approx. 50 times
@@ -179,10 +182,7 @@ namespace EpsilonActual
             walkCounterL++;
             walkCounterR++;
 
-            foreach (Slime slime in slimeList)
-            {
-                slime.sJumpingCounter++;
-            }
+            
 
 
 
@@ -276,14 +276,11 @@ namespace EpsilonActual
                 {
                     gravity = 8;
                 }
-
-
             }
 
             //calls the GameScreen_Paint method to draw the screen.
             Refresh();
         }
-
 
         //Everything that is to be drawn on the screen should be done here
         private void GameScreen_Paint(object sender, PaintEventArgs e)
@@ -292,29 +289,30 @@ namespace EpsilonActual
             //draw rectangle to screen
             foreach (Slime slime in slimeList)
             {
+                slime.sJumpingCounter++;
+
                 Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
 
+                //slime movement
                 if (heroX + heroSize / 2 > slime.sX && slime.sY == ground1Y - slime.sH)
                 {
                     slime.sFacingR = true;
-
-
                 }
                 if (heroX + heroSize / 2 < slime.sX && slime.sY == ground1Y - slime.sH)
                 {
                     slime.sFacingR = false;
                 }
-                if (slime.sJumping && slime.sGravity < 0)
+                if (slime.sJumping == true && slime.sGravity < 0)
                 {
                     slime.sJumping = false;
                 }
-                if (slime.sJumping && !slime.sFacingR)
+                if (slime.sJumping == true && !slime.sFacingR)
                 {
                     slime.sX = slime.sX - 2;
                     slime.sJumpSpeed = -6;
                     slime.sGravity--;
                 }
-                else if (slime.sJumping && slime.sFacingR)
+                else if (slime.sJumping == true && slime.sFacingR)
                 {
                     slime.sX = slime.sX + 2;
                     slime.sJumpSpeed = -6;
@@ -326,7 +324,6 @@ namespace EpsilonActual
                 }
                 if (!slime.sJumping && !(slime.sY == ground1Y - slime.sH) && slime.sFacingR)
                 {
-
                     slime.sX = slime.sX + 2;
                 }
                 else if (!slime.sJumping && !(slime.sY == ground1Y - slime.sH) && !slime.sFacingR)
@@ -336,6 +333,7 @@ namespace EpsilonActual
 
                 slime.sY = slime.sY + slime.sJumpSpeed;
 
+                //colision of slime
                 if (slime.sX > ground1X - slime.sW && slime.sX < ground1X + groundEnd1)
                 {
                     if (slime.sY > ground1Y && slime.sX > ground1X - slime.sX && slime.sX < ground1X + groundEnd1 && slime.sFacingR == true)
@@ -351,37 +349,46 @@ namespace EpsilonActual
                     else if (slime.sY > ground1Y - slime.sH && slime.sFacingR)
                     {
                         slime.sY = ground1Y - slime.sH;
-
-
                     }
                     else if (slime.sY > ground1Y - slime.sH && !slime.sFacingR)
                     {
                         slime.sY = ground1Y - slime.sH;
-
-
                     }
-                    if (slime.sY == ground1Y - slime.sH && !slime.sJumping)
+                    if (slime.sY == ground1Y - slime.sH)
                     {
                         if (slime.sJumpingCounter > 40)
                         {
-                            slime.sJumpingCounter = 0;
                             slime.sJumping = true;
+                            slime.sJumpingCounter = 0;
                         }
-                        sGravity = 8;
+                        slime.sGravity = 8;
+                        
                     }
+                    
+
                 }
                 //draw slime
-                if (slime.sFacingR == false && slime.sJumpingCounter < 100)
+                if (slime.sFacingR == false && slime.sJumpingCounter > 20 && slime.sJumpingCounter < 40)
                 {
                     e.Graphics.DrawImage(Properties.Resources.slime_LC, slime.sX, slime.sY, slime.sW, slime.sH);
                 }
-                else if (slime.sFacingR == false && slime.sJumpingCounter < 200)
+                else if (slime.sFacingR == false && slime.sJumpingCounter <= 20)
                 {
-
-                    e.Graphics.DrawImage(Properties.Resources.slime_LJ, slime.sX, slime.sY, slime.sW, slime.sH);
-
+                    e.Graphics.DrawImage(Properties.Resources.slime_L, slime.sX, slime.sY, slime.sW, slime.sH);
                 }
-                if (slime.sFacingR == true)
+                else if (slime.sFacingR == false && slime.sJumpingCounter == 40)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.slime_LJ, slime.sX, slime.sY, slime.sW, slime.sH);
+                }
+                if (slime.sFacingR == true && slime.sJumpingCounter > 20 && slime.sJumpingCounter < 40)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.slime_RC, slime.sX, slime.sY, slime.sW, slime.sH);
+                }
+                else if (slime.sFacingR == true && slime.sJumpingCounter < 20)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.slime_R, slime.sX, slime.sY, slime.sW, slime.sH);
+                }
+                else if (slime.sFacingR == true && slime.sJumpingCounter > 40)
                 {
                     e.Graphics.DrawImage(Properties.Resources.slime_RJ, slime.sX, slime.sY, slime.sW, slime.sH);
                 }
@@ -389,7 +396,9 @@ namespace EpsilonActual
 
             Rectangle heroRec = new Rectangle(heroX, heroY, heroSize, heroSize);
             Rectangle groundRec = new Rectangle(ground1X, ground1Y, groundEnd1, ground1Y);
+            //
 
+            //hero facing
             if (facingR == true)
             {
                 if (downArrowDown == true)
@@ -472,9 +481,6 @@ namespace EpsilonActual
                     }
                 }
             }
-
-
-
 
             e.Graphics.DrawImage(Properties.Resources.FLOOR, ground1X, ground1Y - 10, groundEnd1, ground1Y);
         }
