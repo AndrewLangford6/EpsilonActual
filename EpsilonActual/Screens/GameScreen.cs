@@ -23,6 +23,9 @@ namespace EpsilonActual
 
 
         List<Slime> slimeList = new List<Slime>();
+        List<Bat> batList = new List<Bat>();
+
+        // List<Ground> groundList = new List<Ground>();
 
 
 
@@ -32,15 +35,15 @@ namespace EpsilonActual
         }
 
         //TODO create your global game variables here
-        int heroX, heroY, heroSize, heroSpeed, gravity, sGravity, ground1Y, ground1X, groundEnd1, sX, sY, sW, sH, sSpeed, sRange;
+        int heroX, heroY, heroSize, heroSpeed, gravity, sGravity, groundY, groundX, groundS, sX, sY, sW, sH, sSpeed, sRange, bX, bY, bW, bH;
 
         int walkCounterR = 0;
         int walkCounterL = 0;
-        int jumpSpeed;
+        int jumpSpeed = 4;
 
         bool facingR = true;
         bool jumping = false;
-        SolidBrush heroBrush = new SolidBrush(Color.Black);
+        SolidBrush heroBrush = new SolidBrush(Color.Yellow);
         SolidBrush groundBrush = new SolidBrush(Color.Brown);
 
         // SoundPlayer gamePlayer = new SoundPlayer(Properties.Resources.Quiet);
@@ -49,17 +52,25 @@ namespace EpsilonActual
 
 
 
-        public GameScreen()
+        public GameScreen()    //Mainline
         {
             InitializeComponent();
             InitializeGameValues();
-            
-                Slime Slime1 = new Slime(sX, sY, sH, sW, sSpeed, sRange);
+
+            Slime Slime1 = new Slime(sX, sY, sH, sW, sSpeed, sRange);
             Slime Slime2 = new Slime(sX - 200, sY, sH, sW, sSpeed, sRange);
             Slime Slime3 = new Slime(sX - 100, sY, sH, sW, sSpeed, sRange);
+            Rectangle groundRec1 = new Rectangle(groundX, groundY, groundS, groundS);
+            //groundList.Add(groundRec1);
+            // Ground groundRec2 = new Ground(groundX + 325, groundY - 32, groundS);
+            // groundList.Add(groundRec2);
+
+            Bat Bat1 = new Bat(bX, bY, bH, bW);
+
+            batList.Add(Bat1);
             slimeList.Add(Slime1);
-            slimeList.Add(Slime2);
-            slimeList.Add(Slime3);
+            // slimeList.Add(Slime2);
+            // slimeList.Add(Slime3);
 
             //gamePlayer.PlayLooping();
 
@@ -82,10 +93,15 @@ namespace EpsilonActual
             sSpeed = 10;
             sRange = 32;
 
-            gravity = 8;
-            ground1Y = 200;
-            ground1X = -25;
-            groundEnd1 = 350;
+            gravity = 12;
+            groundY = 200;
+            groundX = 0;
+            groundS = 325;
+
+            bX = 10;
+            bY = groundY - 50;
+            bW = 32;
+            bH = 32;
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -125,7 +141,7 @@ namespace EpsilonActual
                     rightArrowDown = true;
                     break;
                 case Keys.Space:
-                    if (!jumping && heroY == ground1Y - heroSize)
+                    if (!jumping && heroY == groundY - heroSize)
                     {
                         jumping = true;
                     }
@@ -182,10 +198,6 @@ namespace EpsilonActual
             walkCounterL++;
             walkCounterR++;
 
-            
-
-
-
             //TODO move main character 
             if (heroY > this.Height)
             {
@@ -206,7 +218,13 @@ namespace EpsilonActual
                     slime.sX = slime.sX + heroSpeed;
                 }
 
-                ground1X = ground1X + heroSpeed;
+                foreach (Bat bat in batList)
+                {
+                    bat.bX = bat.bX + heroSpeed;
+                }
+
+                //ground.groundX = ground.groundX + heroSpeed;
+                groundX = groundX + heroSpeed;
                 facingR = false;
             }
             if (downArrowDown == true)
@@ -219,7 +237,12 @@ namespace EpsilonActual
                 {
                     slime.sX = slime.sX - heroSpeed;
                 }
-                ground1X = ground1X - heroSpeed;
+                foreach (Bat bat in batList)
+                {
+                    bat.bX = bat.bX - heroSpeed;
+                }
+                //ground.groundX = ground.groundX - heroSpeed;
+                groundX = groundX - heroSpeed;
                 facingR = true;
             }
             if (spaceDown == true)
@@ -228,12 +251,12 @@ namespace EpsilonActual
             }
             if (jumping)
             {
-                jumpSpeed = -8;
+                jumpSpeed = -4;
                 gravity--;
             }
             else
             {
-                jumpSpeed = 8;
+                jumpSpeed = 4;
             }
             heroY = heroY + jumpSpeed;
 
@@ -255,106 +278,137 @@ namespace EpsilonActual
 
 
             //hero
-            if (heroX > ground1X - heroSize && heroX < ground1X + groundEnd1)
-            {
-                if (heroY > ground1Y && heroX > ground1X - heroSize && heroX < ground1X + groundEnd1 && facingR == true)
-                {
-                    heroX = ground1X - heroSize + 16;
-                    rightArrowDown = false;
-                }
-                else if (heroY > ground1Y && heroX > ground1X - heroSize && heroX < ground1X + groundEnd1 && facingR == false)
-                {
-                    heroX = ground1X + groundEnd1 - 16;
-                    leftArrowDown = false;
-                }
-                else if (heroY > ground1Y - heroSize)
-                {
-                    heroY = ground1Y - heroSize;
-                }
 
-                if (heroY == ground1Y - heroSize && !jumping)
-                {
-                    gravity = 8;
-                }
-            }
 
             //calls the GameScreen_Paint method to draw the screen.
             Refresh();
-        }
 
+        }
         //Everything that is to be drawn on the screen should be done here
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
 
+            Rectangle heroRec = new Rectangle(heroX, heroY, heroSize, heroSize);
+            //e.Graphics.DrawImage(Properties.Resources.FLOOR, groundX, groundY, groundS + 10, groundS);
+            e.Graphics.FillRectangle(groundBrush, groundX, groundY, groundS - 10, groundS);
             //draw rectangle to screen
+
+            foreach (Bat bat in batList)
+            {
+                bat.bJumpingCounter++;
+
+                Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
+
+
+                if (bat.bJumpingCounter > 20)
+                {
+                    bat.bJumpSpeed = 3;
+                    bat.bGravity--;
+                }
+                else if (bat.bGravity <= 20)
+                {
+                    bat.bJumpSpeed = -3;
+                    bat.bGravity++;
+                }
+                if (bat.bJumpingCounter > 39)
+                {
+                    bat.bJumpingCounter = 0;
+                    bat.bGravity = 8;
+                }
+                bat.bY = bat.bY + bat.bJumpSpeed;
+
+                e.Graphics.FillRectangle(heroBrush, bat.bX, bat.bY, bat.bW, bat.bH);
+            }
+
             foreach (Slime slime in slimeList)
             {
+
                 slime.sJumpingCounter++;
 
                 Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
 
                 //slime movement
-                if (heroX + heroSize / 2 > slime.sX && slime.sY == ground1Y - slime.sH)
+                if (heroX + heroSize / 2 > slime.sX && slime.sY == groundY - slime.sH)
                 {
+
                     slime.sFacingR = true;
+
+                    
                 }
-                if (heroX + heroSize / 2 < slime.sX && slime.sY == ground1Y - slime.sH)
+                else if (heroX + heroSize / 2 < slime.sX && slime.sY == groundY - slime.sH)
                 {
+                    // if the slimes x plus the slimes height plus the range is more than the hero x  
+                    // AND half the heros width + hero x is less than the slime x
+
                     slime.sFacingR = false;
                 }
-                if (slime.sJumping == true && slime.sGravity < 0)
+                //right chase
+                if (heroX > slime.sX + slime.sW + slime.sRange && slime.sFacingR == true)
                 {
-                    slime.sJumping = false;
+                    slime.sChase = true;
                 }
-                if (slime.sJumping == true && !slime.sFacingR)
+                //left chase
+                else if (heroX + heroSize > slime.sX - slime.sRange&& slime.sFacingR == false)
                 {
-                    slime.sX = slime.sX - 2;
-                    slime.sJumpSpeed = -6;
-                    slime.sGravity--;
+                    slime.sChase = true;
                 }
-                else if (slime.sJumping == true && slime.sFacingR)
+                if (slime.sChase)
                 {
-                    slime.sX = slime.sX + 2;
-                    slime.sJumpSpeed = -6;
-                    slime.sGravity--;
-                }
-                else
-                {
-                    slime.sJumpSpeed = 6;
-                }
-                if (!slime.sJumping && !(slime.sY == ground1Y - slime.sH) && slime.sFacingR)
-                {
-                    slime.sX = slime.sX + 2;
-                }
-                else if (!slime.sJumping && !(slime.sY == ground1Y - slime.sH) && !slime.sFacingR)
-                {
-                    slime.sX = slime.sX - 2;
+                    if (slime.sJumping == true && slime.sGravity < 0)
+                    {
+                        slime.sJumping = false;
+                    }
+                    if (slime.sJumping == true && !slime.sFacingR)
+                    {
+                        slime.sX = slime.sX - 2;
+                        slime.sJumpSpeed = -4;
+                        slime.sGravity--;
+                    }
+                    else if (slime.sJumping == true && slime.sFacingR)
+                    {
+                        slime.sX = slime.sX + 2;
+                        slime.sJumpSpeed = -4;
+                        slime.sGravity--;
+                    }
+                    else     //comment what else is
+                    {
+                        slime.sJumpSpeed = 4;
+                    }
+                    if (!slime.sJumping && !(slime.sY == groundY - slime.sH) && slime.sFacingR)
+                    {
+                        slime.sX = slime.sX + 2;
+                    }
+                    else if (!slime.sJumping && !(slime.sY == groundY - slime.sH) && !slime.sFacingR)
+                    {
+                        slime.sX = slime.sX - 2;
+                    }
+
+
                 }
 
                 slime.sY = slime.sY + slime.sJumpSpeed;
-
                 //colision of slime
-                if (slime.sX > ground1X - slime.sW && slime.sX < ground1X + groundEnd1)
+                if (slime.sX > groundX - slime.sW && slime.sX < groundX + groundS)
                 {
-                    if (slime.sY > ground1Y && slime.sX > ground1X - slime.sX && slime.sX < ground1X + groundEnd1 && slime.sFacingR == true)
+                    if (slime.sY > groundY && slime.sX > groundX - slime.sX && slime.sX < groundX + groundS && slime.sFacingR == true)
                     {
-                        slime.sX = ground1X - slime.sX + 16;
+                        slime.sX = groundX - slime.sX + 16;
                         rightArrowDown = false;
                     }
-                    else if (slime.sY > ground1Y && slime.sX > ground1X - slime.sX && slime.sX < ground1X + groundEnd1 && slime.sFacingR == false)
+                    else if (slime.sY > groundY && slime.sX > groundX - slime.sX && slime.sX < groundX + groundS && slime.sFacingR == false)
                     {
-                        slime.sX = ground1X + groundEnd1 - 16;
+                        slime.sX = groundX + groundS - 16;
                         leftArrowDown = false;
                     }
-                    else if (slime.sY > ground1Y - slime.sH && slime.sFacingR)
+                    else if (slime.sY > groundY - slime.sH && slime.sFacingR)
                     {
-                        slime.sY = ground1Y - slime.sH;
+                        slime.sY = groundY - slime.sH;
                     }
-                    else if (slime.sY > ground1Y - slime.sH && !slime.sFacingR)
+                    else if (slime.sY > groundY - slime.sH && !slime.sFacingR)
                     {
-                        slime.sY = ground1Y - slime.sH;
+                        slime.sY = groundY - slime.sH;
                     }
-                    if (slime.sY == ground1Y - slime.sH)
+                    if (slime.sY == groundY - slime.sH)
                     {
                         if (slime.sJumpingCounter > 40)
                         {
@@ -362,12 +416,33 @@ namespace EpsilonActual
                             slime.sJumpingCounter = 0;
                         }
                         slime.sGravity = 8;
-                        
+
                     }
-                    
 
                 }
+                if (slime.sY == groundY - slime.sH)
+                {
+                    if (slime.sJumpingCounter > 40)
+                    {
+                        slime.sJumping = true;
+                        slime.sJumpingCounter = 0;
+                    }
+                    slime.sGravity = 8;
+
+                }
+
+                //colision with player
+                if (slimeRec.IntersectsWith(heroRec))
+                {
+
+                }
+
+
                 //draw slime
+                if (slime.sFacingR == false && slime.sY != groundY - slime.sH)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.slime_LJ, slime.sX, slime.sY, slime.sW, slime.sH);
+                }
                 if (slime.sFacingR == false && slime.sJumpingCounter > 20 && slime.sJumpingCounter < 40)
                 {
                     e.Graphics.DrawImage(Properties.Resources.slime_LC, slime.sX, slime.sY, slime.sW, slime.sH);
@@ -376,29 +451,62 @@ namespace EpsilonActual
                 {
                     e.Graphics.DrawImage(Properties.Resources.slime_L, slime.sX, slime.sY, slime.sW, slime.sH);
                 }
-                else if (slime.sFacingR == false && slime.sJumpingCounter == 40)
+
+                if (slime.sFacingR == true && slime.sY != groundY - slime.sH)
                 {
-                    e.Graphics.DrawImage(Properties.Resources.slime_LJ, slime.sX, slime.sY, slime.sW, slime.sH);
+                    e.Graphics.DrawImage(Properties.Resources.slime_RJ, slime.sX, slime.sY, slime.sW, slime.sH);
                 }
                 if (slime.sFacingR == true && slime.sJumpingCounter > 20 && slime.sJumpingCounter < 40)
                 {
                     e.Graphics.DrawImage(Properties.Resources.slime_RC, slime.sX, slime.sY, slime.sW, slime.sH);
                 }
-                else if (slime.sFacingR == true && slime.sJumpingCounter < 20)
+                else if (slime.sFacingR == true && slime.sJumpingCounter <= 20)
                 {
                     e.Graphics.DrawImage(Properties.Resources.slime_R, slime.sX, slime.sY, slime.sW, slime.sH);
                 }
-                else if (slime.sFacingR == true && slime.sJumpingCounter > 40)
+
+            }
+
+
+
+            //Rectangle groundRec = new Rectangle(ground.groundX, ground.groundY, ground.groundS, ground.groundS);
+            //e.Graphics.DrawImage(   Properties.Resources.FLOOR , ground.groundX, ground.groundY, ground.groundS + 50, ground.groundS);
+            //e.Graphics.DrawImage(Properties.Resources.FLOOR, ground.groundX, ground.groundY - 18, ground.groundS, ground.groundS);
+
+
+
+
+
+
+            if (heroX > groundX - heroSize && heroX < groundX + groundS)
+            {
+                if (heroY > groundY && heroX > groundX - heroSize && heroX < groundX + groundS && facingR == true)
                 {
-                    e.Graphics.DrawImage(Properties.Resources.slime_RJ, slime.sX, slime.sY, slime.sW, slime.sH);
+                    heroX = groundX - heroSize + 16;
+                    rightArrowDown = false;
+                }
+                else if (heroY > groundY && heroX > groundX - heroSize && heroX < groundX + groundS && facingR == false)
+                {
+                    heroX = groundX + groundS - 16;
+                    leftArrowDown = false;
+                }
+                else if (heroY > groundY - heroSize)
+                {
+                    heroY = groundY - heroSize;
+                }
+
+                if (heroY == groundY - heroSize && !jumping)
+                {
+                    this.gravity = 12;
                 }
             }
 
-            Rectangle heroRec = new Rectangle(heroX, heroY, heroSize, heroSize);
-            Rectangle groundRec = new Rectangle(ground1X, ground1Y, groundEnd1, ground1Y);
+
             //
 
+
             //hero facing
+            
             if (facingR == true)
             {
                 if (downArrowDown == true)
@@ -482,8 +590,8 @@ namespace EpsilonActual
                 }
             }
 
-            e.Graphics.DrawImage(Properties.Resources.FLOOR, ground1X, ground1Y - 10, groundEnd1, ground1Y);
         }
     }
-
 }
+
+

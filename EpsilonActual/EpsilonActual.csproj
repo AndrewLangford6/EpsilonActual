@@ -52,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Screens\Bat.cs" />
+    <Compile Include="Screens\Ground.cs" />
     <Compile Include="Screens\PauseForm.cs">
       <SubType>Form</SubType>
     </Compile>

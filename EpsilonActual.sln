@@ -5,6 +5,13 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpsilonActual", "EpsilonActual\EpsilonActual.csproj", "{16B375B2-E5DE-4331-A6B8-36CD562B708B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7AF03BBA-5BEA-4400-A76C-BA10D2E07DCF}"
+	ProjectSection(SolutionItems) = preProject
+		Bat.cs = Bat.cs
+		Class1.cs = Class1.cs
+		ground.cs = ground.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
