@@ -83,6 +83,36 @@ namespace EpsilonActual.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bat_d {
+            get {
+                object obj = ResourceManager.GetObject("bat_d", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bat_r {
+            get {
+                object obj = ResourceManager.GetObject("bat_r", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bat_u {
+            get {
+                object obj = ResourceManager.GetObject("bat_u", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap blue_50x50 {
             get {
                 object obj = ResourceManager.GetObject("blue_50x50", resourceCulture);
@@ -116,6 +146,36 @@ namespace EpsilonActual.Properties {
         internal static System.Drawing.Bitmap FLOOR {
             get {
                 object obj = ResourceManager.GetObject("FLOOR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap floor_complete {
+            get {
+                object obj = ResourceManager.GetObject("floor_complete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FLOOR_LONG {
+            get {
+                object obj = ResourceManager.GetObject("FLOOR_LONG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FLOOR1 {
+            get {
+                object obj = ResourceManager.GetObject("FLOOR1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -15,6 +15,7 @@ namespace EpsilonActual
         public bool sFacingR = true;
         public bool sChase = false;
 
+        public int hp = 5;
         public int sJumpingCounter = 0;
         public int sJumpSpeed = 4;
         public int sGravity = 8;

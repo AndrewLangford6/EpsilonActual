@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Screens\Bat.cs" />
+    <Compile Include="Screens\Bullet.cs" />
     <Compile Include="Screens\Ground.cs" />
     <Compile Include="Screens\PauseForm.cs">
       <SubType>Form</SubType>
@@ -164,9 +165,6 @@
     <None Include="Resources\crouch R.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FLOOR.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\jump L.png" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +199,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\slime RJ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bat d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bat r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bat u.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FLOOR_LONG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FLOOR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\floor complete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lookup_R.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\base_R.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
