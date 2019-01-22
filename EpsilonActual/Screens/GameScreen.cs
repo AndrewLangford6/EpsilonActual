@@ -101,8 +101,9 @@ namespace EpsilonActual
             sRange = 32;
 
             gravity = 12;
+
             groundY = 200;
-            groundX = -180;
+            groundX = -338;
             groundS = 1000;
 
             bX = 10;
@@ -268,6 +269,23 @@ namespace EpsilonActual
                     bat.bX = bat.bX + heroSpeed;
                 }
 
+                foreach (Bullet bullet in bullet1List)
+                {
+                    bullet.pX = bullet.pX + heroSpeed;
+                }
+                foreach (Bullet bullet in bullet2List)
+                {
+                    bullet.pX = bullet.pX + heroSpeed;
+                }
+                foreach (Bullet bullet in bullet3List)
+                {
+                    bullet.pX = bullet.pX + heroSpeed;
+                }
+                foreach (Bullet bullet in bullet4List)
+                {
+                    bullet.pX = bullet.pX + heroSpeed;
+                }
+
                 //ground.groundX = ground.groundX + heroSpeed;
                 groundX = groundX + heroSpeed;
                 facingR = false;
@@ -285,6 +303,23 @@ namespace EpsilonActual
                 foreach (Bat bat in batList)
                 {
                     bat.bX = bat.bX - heroSpeed;
+                }
+
+                foreach (Bullet bullet in bullet1List)
+                {
+                    bullet.pX = bullet.pX - heroSpeed;
+                }
+                foreach (Bullet bullet in bullet2List)
+                {
+                    bullet.pX = bullet.pX - heroSpeed;
+                }
+                foreach (Bullet bullet in bullet3List)
+                {
+                    bullet.pX = bullet.pX- heroSpeed;
+                }
+                foreach (Bullet bullet in bullet4List)
+                {
+                    bullet.pX = bullet.pX - heroSpeed;
                 }
                 //ground.groundX = ground.groundX - heroSpeed;
                 groundX = groundX - heroSpeed;
@@ -450,7 +485,7 @@ namespace EpsilonActual
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
 
-            Rectangle heroRec = new Rectangle(heroX, heroY, heroSize, heroSize);
+            Rectangle heroRec = new Rectangle(heroX, heroY - 6, heroSize, heroSize);
            
            // e.Graphics.FillRectangle(groundBrush, groundX, groundY, groundS - 10, groundS);
             //draw rectangle to screen
@@ -473,7 +508,18 @@ namespace EpsilonActual
                     hp--;
                 }
 
-                e.Graphics.FillRectangle(heroBrush, bat.bX, bat.bY, bat.bW, bat.bH);
+               if (bat.bGravity < 0)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.bat_d, bat.bX, bat.bY, bat.bW, bat.bH);
+                }
+               else if (bat.bGravity > 7)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.bat_u, bat.bX, bat.bY, bat.bW, bat.bH);
+                }
+               else
+                {
+                    e.Graphics.DrawImage(Properties.Resources.bat_r, bat.bX, bat.bY, bat.bW, bat.bH);
+                }
             }
 
             foreach (Slime slime in slimeList)
@@ -640,52 +686,64 @@ namespace EpsilonActual
             {
                 if (facingR == true && upArrowDown == true)
                 {
-                    Bullet bullet1 = new Bullet(heroX + 25, heroY + 4, pH, pW);
+                    Bullet bullet1 = new Bullet(pX, pY, pH, pW);
                     bullet1List.Add(bullet1);
                 }
                 else if (facingR == true)
                 {
-                    Bullet bullet2 = new Bullet(heroX + 29, heroY - 22, pW, pH);
-                    bullet1List.Add(bullet2);
+                    Bullet bullet2 = new Bullet(pX, pY, pH, pW);
+                    bullet2List.Add(bullet2);
                 }
                 if (facingR == false && upArrowDown == true)
                 {
-                    Bullet bullet3 = new Bullet(heroX + 7, heroY + 4, pH, pW);
-                    bullet1List.Add(bullet3);
+                    Bullet bullet3 = new Bullet(pX, pY, pH, pW);
+                    bullet3List.Add(bullet3);
                 }
                 else if (facingR == false)
                 {
-                    Bullet bullet4 = new Bullet(heroX + 4, heroY + 22, pW, pH);
-                    bullet1List.Add(bullet4);
+                    Bullet bullet4 = new Bullet(pX, pY, pH, pW);
+                    bullet4List.Add(bullet4);
                 }
             }
 
             foreach (Bullet bullet in bullet1List)
             {
+                bullet.pX = heroX + 25;
+                bullet.pY = heroY - 10;
                 bullet.pShootingCounter++;
 
-                Rectangle b1 = new Rectangle(heroX + 25, heroY - 4, bullet.pH, bullet.pW);
-                e.Graphics.FillRectangle(heroBrush, heroX + 25, heroY - 4, bullet.pH, bullet.pW);
+
+
+                Rectangle b1 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
+                e.Graphics.FillRectangle(heroBrush, b1);
             }
             foreach (Bullet bullet in bullet2List)
             {
+                bullet.pX = heroX + 29;
+                bullet.pY = heroY + 19;
                 bullet.pShootingCounter++;
 
-                Rectangle b2 = new Rectangle(heroX + 29, heroY - 22, bullet.pW, bullet.pH);
+                
+
+                Rectangle b2 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
                 e.Graphics.FillRectangle(heroBrush, b2);
             }
             foreach (Bullet bullet in bullet3List)
             {
+                bullet.pX = heroX + 7;
+                bullet.pY = heroY  -10;
                 bullet.pShootingCounter++;
 
-                Rectangle b3 = new Rectangle(heroX + 7, heroY + 22, bullet.pW, bullet.pH);
+                Rectangle b3 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
                 e.Graphics.FillRectangle(heroBrush, b3);
             }
             foreach (Bullet bullet in bullet4List)
             {
+                bullet.pX = heroX - 7;
+                bullet.pY = heroY + 21;
                 bullet.pShootingCounter++;
 
-                Rectangle b4 = new Rectangle(heroX + 4, heroY + 22, bullet.pW, bullet.pH);
+                Rectangle b4 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
                 e.Graphics.FillRectangle(heroBrush, b4);
             }
 
@@ -693,7 +751,7 @@ namespace EpsilonActual
 
 
 
-            e.Graphics.DrawImage(Properties.Resources.floor_complete, groundX, groundY + 8, groundS, groundS);
+            e.Graphics.DrawImage(Properties.Resources.floor_complete, groundX, groundY - 16, groundS, groundS - 675);
         }
     }
 }
