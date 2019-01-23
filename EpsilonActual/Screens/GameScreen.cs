@@ -596,18 +596,6 @@ namespace EpsilonActual
                 }
             }
 
-
-            
-            
-
-
-
-
-
-
-
-
-
             if (heroX > groundX - heroSize && heroX < groundX + groundS)
             {
                 if (heroY > groundY && heroX > groundX - heroSize && heroX < groundX + groundS && facingR == true)
@@ -632,7 +620,7 @@ namespace EpsilonActual
             }
 
 
-            //
+            
 
 
             //hero facing
