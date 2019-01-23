@@ -231,6 +231,14 @@ namespace EpsilonActual
             {
                 hpLabel.Text = "hp:";
                 hpBar.Value = hp;
+                if (hp <= 1)
+                {
+                    Thread.Sleep(1000);
+                    MainForm.ChangeScreen(this, "MenuScreen");
+                    gameTimer.Enabled = false;
+                    //gamePlayer.Stop();
+                    rightArrowDown = leftArrowDown = zDown = downArrowDown = false;
+                }
             }
             catch
             {
@@ -240,14 +248,7 @@ namespace EpsilonActual
                 //gamePlayer.Stop();
                 rightArrowDown = leftArrowDown = zDown = downArrowDown = false;
             }
-            if (hp <= 1)
-            {
-                Thread.Sleep(1000);
-                MainForm.ChangeScreen(this, "MenuScreen");
-                gameTimer.Enabled = false;
-                //gamePlayer.Stop();
-                rightArrowDown = leftArrowDown = zDown = downArrowDown = false;
-            }
+            
 
             scoreLabel.Text = "Score:  " + score;
             walkCounterL++;
@@ -737,7 +738,7 @@ namespace EpsilonActual
                     {
                         bullet1List.Remove(bullet);
                         batList.Remove(bat);
-                        
+                        score = score + 100;
                     }                    
                 }
 
@@ -750,7 +751,7 @@ namespace EpsilonActual
 
                         bullet1List.Remove(bullet);
                         slimeList.Remove(slime);
-
+                        score = score + 100;
                     }
                 }
 
@@ -776,7 +777,7 @@ namespace EpsilonActual
                     {
                         bullet2List.Remove(bullet);
                         batList.Remove(bat);
-
+                        score = score + 100;
                     }
                 }
 
@@ -788,7 +789,7 @@ namespace EpsilonActual
                     {
                         bullet2List.Remove(bullet);
                         slimeList.Remove(slime);
-
+                        score = score + 100;
                     }
                 }
 
@@ -809,7 +810,7 @@ namespace EpsilonActual
                     {
                         bullet3List.Remove(bullet);
                         batList.Remove(bat);
-
+                        score = score + 100;
                     }
                 }
 
@@ -821,7 +822,7 @@ namespace EpsilonActual
                     {
                         bullet3List.Remove(bullet);
                         slimeList.Remove(slime);
-
+                        score = score + 100;
                     }
                 }
 
@@ -842,7 +843,7 @@ namespace EpsilonActual
                     {
                         bullet4List.Remove(bullet);
                         batList.Remove(bat);
-
+                        score = score + 100;
                     }
                 }
                 foreach (Slime slime in slimeList.AsEnumerable().Reverse())
@@ -853,7 +854,7 @@ namespace EpsilonActual
                     {
                         bullet4List.Remove(bullet);
                         slimeList.Remove(slime);
-
+                        score = score + 100;
                     }
                 }
 

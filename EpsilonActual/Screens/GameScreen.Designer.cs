@@ -57,7 +57,7 @@
             this.scoreLabel.AutoSize = true;
             this.scoreLabel.BackColor = System.Drawing.Color.Transparent;
             this.scoreLabel.ForeColor = System.Drawing.Color.White;
-            this.scoreLabel.Location = new System.Drawing.Point(293, 0);
+            this.scoreLabel.Location = new System.Drawing.Point(260, 0);
             this.scoreLabel.Name = "scoreLabel";
             this.scoreLabel.Size = new System.Drawing.Size(29, 13);
             this.scoreLabel.TabIndex = 1;
