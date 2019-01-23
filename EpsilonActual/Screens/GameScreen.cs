@@ -42,8 +42,14 @@ namespace EpsilonActual
         //TODO create your global game variables here
         int hp, score, heroX, heroY, heroSize, heroSpeed, gravity, sGravity, groundY, groundX, groundS, sX, sY, sW, sH, sSpeed, sRange, bX, bY, bW, bH, pX, pY, pW, pH;
 
+        private void scoreLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
         int walkCounterR = 0;
         int walkCounterL = 0;
+        int pShootingCounter = 0;
         int jumpSpeed = 4;
 
         bool facingR = true;
@@ -63,19 +69,22 @@ namespace EpsilonActual
             InitializeGameValues();
 
             Slime Slime1 = new Slime(sX, sY, sH, sW, sSpeed, sRange);
-            Slime Slime2 = new Slime(sX - 200, sY, sH, sW, sSpeed, sRange);
+            Slime Slime2 = new Slime(sX + 600, sY, sH, sW, sSpeed, sRange);
             Slime Slime3 = new Slime(sX - 100, sY, sH, sW, sSpeed, sRange);
             Rectangle groundRec1 = new Rectangle(groundX, groundY, groundS, 325);
-            //groundList.Add(groundRec1);
-            // Ground groundRec2 = new Ground(groundX + 325, groundY - 32, groundS);
-            // groundList.Add(groundRec2);
 
             Bat Bat1 = new Bat(bX, bY, bH, bW);
 
             batList.Add(Bat1);
+            Bat Bat2 = new Bat(bX-100, bY, bH, bW);
+
+            batList.Add(Bat2);
+            Bat Bat3 = new Bat(bX+300, bY, bH, bW);
+
+            batList.Add(Bat3);
             slimeList.Add(Slime1);
-            // slimeList.Add(Slime2);
-            // slimeList.Add(Slime3);
+            slimeList.Add(Slime2);
+            slimeList.Add(Slime3);
 
             //gamePlayer.PlayLooping();
 
@@ -98,7 +107,7 @@ namespace EpsilonActual
             sW = 32;
             sH = 16;
             sSpeed = 10;
-            sRange = 32;
+            sRange = 64;
 
             gravity = 12;
 
@@ -243,6 +252,7 @@ namespace EpsilonActual
             scoreLabel.Text = "Score:  " + score;
             walkCounterL++;
             walkCounterR++;
+            pShootingCounter++;
 
             //TODO move main character 
             if (heroY > this.Height)
@@ -484,6 +494,33 @@ namespace EpsilonActual
         //Everything that is to be drawn on the screen should be done here
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
+            if (xDown)
+            {
+                if (pShootingCounter > 10)
+                {
+                    if (facingR == true && upArrowDown == true)
+                    {
+                        Bullet bullet1 = new Bullet(heroX + 25, heroY + 4, pH, pW);
+                        bullet1List.Add(bullet1);
+                    }
+                    else if (facingR == true)
+                    {
+                        Bullet bullet2 = new Bullet(heroX + 19, heroY + 19, pH, pW);
+                        bullet2List.Add(bullet2);
+                    }
+                    if (facingR == false && upArrowDown == true)
+                    {
+                        Bullet bullet3 = new Bullet(heroX + 7, heroY + 4, pH, pW);
+                        bullet3List.Add(bullet3);
+                    }
+                    else if (facingR == false)
+                    {
+                        Bullet bullet4 = new Bullet(heroX + 4, heroY + 21, pH, pW);
+                        bullet4List.Add(bullet4);
+                    }
+                    pShootingCounter = 0;
+                }
+            }
 
             Rectangle heroRec = new Rectangle(heroX, heroY - 6, heroSize, heroSize);
            
@@ -507,7 +544,7 @@ namespace EpsilonActual
                 {
                     hp--;
                 }
-
+                
                if (bat.bGravity < 0)
                 {
                     e.Graphics.DrawImage(Properties.Resources.bat_d, bat.bX, bat.bY, bat.bW, bat.bH);
@@ -682,73 +719,148 @@ namespace EpsilonActual
                 }
             }
 
-            if (xDown)
+           
+
+            foreach (Bullet bullet in bullet1List.AsEnumerable().Reverse())
             {
-                if (facingR == true && upArrowDown == true)
-                {
-                    Bullet bullet1 = new Bullet(pX, pY, pH, pW);
-                    bullet1List.Add(bullet1);
-                }
-                else if (facingR == true)
-                {
-                    Bullet bullet2 = new Bullet(pX, pY, pH, pW);
-                    bullet2List.Add(bullet2);
-                }
-                if (facingR == false && upArrowDown == true)
-                {
-                    Bullet bullet3 = new Bullet(pX, pY, pH, pW);
-                    bullet3List.Add(bullet3);
-                }
-                else if (facingR == false)
-                {
-                    Bullet bullet4 = new Bullet(pX, pY, pH, pW);
-                    bullet4List.Add(bullet4);
-                }
-            }
-
-            foreach (Bullet bullet in bullet1List)
-            {
-                bullet.pX = heroX + 25;
-                bullet.pY = heroY - 10;
-                bullet.pShootingCounter++;
-
-
-
-                Rectangle b1 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
-                e.Graphics.FillRectangle(heroBrush, b1);
-            }
-            foreach (Bullet bullet in bullet2List)
-            {
-                bullet.pX = heroX + 29;
-                bullet.pY = heroY + 19;
-                bullet.pShootingCounter++;
-
+                    bullet.pY = bullet.pY - 5;
+                
                 
 
-                Rectangle b2 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
-                e.Graphics.FillRectangle(heroBrush, b2);
+                    Rectangle b1 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
+                    e.Graphics.FillRectangle(heroBrush, b1);
+               foreach(Bat bat in batList.AsEnumerable().Reverse())
+               {
+                    Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
+                    
+                    if (b1.IntersectsWith(batRec))
+                    {
+                        bullet1List.Remove(bullet);
+                        batList.Remove(bat);
+                        
+                    }                    
+                }
+
+                foreach (Slime slime in slimeList.AsEnumerable().Reverse())
+                {
+                    Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
+
+                    if (b1.IntersectsWith(slimeRec))
+                    {
+
+                        bullet1List.Remove(bullet);
+                        slimeList.Remove(slime);
+
+                    }
+                }
+
+
+
+
             }
-            foreach (Bullet bullet in bullet3List)
+            foreach (Bullet bullet in bullet2List.AsEnumerable().Reverse())
             {
-                bullet.pX = heroX + 7;
-                bullet.pY = heroY  -10;
-                bullet.pShootingCounter++;
+                
+                    bullet.pX = bullet.pX + 5;
 
-                Rectangle b3 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
-                e.Graphics.FillRectangle(heroBrush, b3);
+                    
+
+                    Rectangle b2 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
+                    e.Graphics.FillRectangle(heroBrush, b2);
+
+                foreach (Bat bat in batList.AsEnumerable().Reverse())
+                {
+                    Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
+
+                    if (b2.IntersectsWith(batRec))
+                    {
+                        bullet2List.Remove(bullet);
+                        batList.Remove(bat);
+
+                    }
+                }
+
+                foreach (Slime slime in slimeList.AsEnumerable().Reverse())
+                {
+                    Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
+
+                    if (b2.IntersectsWith(slimeRec))
+                    {
+                        bullet2List.Remove(bullet);
+                        slimeList.Remove(slime);
+
+                    }
+                }
+
             }
-            foreach (Bullet bullet in bullet4List)
+            foreach (Bullet bullet in bullet3List.AsEnumerable().Reverse())
             {
-                bullet.pX = heroX - 7;
-                bullet.pY = heroY + 21;
-                bullet.pShootingCounter++;
+               
 
-                Rectangle b4 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
-                e.Graphics.FillRectangle(heroBrush, b4);
+                    bullet.pY = bullet.pY - 5;
+                    Rectangle b3 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
+                    e.Graphics.FillRectangle(heroBrush, b3);
+
+                foreach (Bat bat in batList.AsEnumerable().Reverse())
+                {
+                    Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
+
+                    if (b3.IntersectsWith(batRec))
+                    {
+                        bullet3List.Remove(bullet);
+                        batList.Remove(bat);
+
+                    }
+                }
+
+                foreach (Slime slime in slimeList.AsEnumerable().Reverse())
+                {
+                    Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
+
+                    if (b3.IntersectsWith(slimeRec))
+                    {
+                        bullet3List.Remove(bullet);
+                        slimeList.Remove(slime);
+
+                    }
+                }
+
+            }
+            foreach (Bullet bullet in bullet4List.AsEnumerable().Reverse())
+            {
+
+                bullet.pX = bullet.pX - 5;
+
+                    Rectangle b4 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
+                    e.Graphics.FillRectangle(heroBrush, b4);
+
+                foreach (Bat bat in batList.AsEnumerable().Reverse())
+                {
+                    Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
+
+                    if (b4.IntersectsWith(batRec))
+                    {
+                        bullet4List.Remove(bullet);
+                        batList.Remove(bat);
+
+                    }
+                }
+                foreach (Slime slime in slimeList.AsEnumerable().Reverse())
+                {
+                    Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
+
+                    if (b4.IntersectsWith(slimeRec))
+                    {
+                        bullet4List.Remove(bullet);
+                        slimeList.Remove(slime);
+
+                    }
+                }
+
             }
 
 
-
+            
 
 
             e.Graphics.DrawImage(Properties.Resources.floor_complete, groundX, groundY - 16, groundS, groundS - 675);

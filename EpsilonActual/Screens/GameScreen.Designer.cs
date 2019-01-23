@@ -62,6 +62,7 @@
             this.scoreLabel.Size = new System.Drawing.Size(29, 13);
             this.scoreLabel.TabIndex = 1;
             this.scoreLabel.Text = "label";
+            this.scoreLabel.Click += new System.EventHandler(this.scoreLabel_Click);
             // 
             // hpBar
             // 

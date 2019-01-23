@@ -46,5 +46,10 @@ namespace EpsilonActual
             Button btn = (Button)sender;
             btn.BackColor = Color.Gold;
         }
+
+        private void menuTitle_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

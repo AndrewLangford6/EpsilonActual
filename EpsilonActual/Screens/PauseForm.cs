@@ -71,5 +71,10 @@ namespace EpsilonActual
             Button btn = (Button)sender;
             btn.BackColor = Color.Gold;
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

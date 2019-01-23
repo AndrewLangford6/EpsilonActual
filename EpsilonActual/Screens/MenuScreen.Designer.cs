@@ -40,10 +40,12 @@
             this.exitButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.exitButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exitButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.exitButton.Location = new System.Drawing.Point(129, 317);
+            this.exitButton.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exitButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.exitButton.Location = new System.Drawing.Point(86, 206);
+            this.exitButton.Margin = new System.Windows.Forms.Padding(2);
             this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(180, 60);
+            this.exitButton.Size = new System.Drawing.Size(120, 39);
             this.exitButton.TabIndex = 3;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = false;
@@ -55,10 +57,12 @@
             this.playButton.BackColor = System.Drawing.Color.White;
             this.playButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.playButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.playButton.Location = new System.Drawing.Point(129, 143);
+            this.playButton.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.playButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.playButton.Location = new System.Drawing.Point(86, 93);
+            this.playButton.Margin = new System.Windows.Forms.Padding(2);
             this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(180, 60);
+            this.playButton.Size = new System.Drawing.Size(120, 39);
             this.playButton.TabIndex = 1;
             this.playButton.Tag = "GameScreen";
             this.playButton.Text = "Play";
@@ -68,14 +72,17 @@
             // 
             // menuTitle
             // 
-            this.menuTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.menuTitle.ForeColor = System.Drawing.Color.White;
-            this.menuTitle.Location = new System.Drawing.Point(135, 52);
+            this.menuTitle.BackColor = System.Drawing.Color.White;
+            this.menuTitle.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuTitle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.menuTitle.Location = new System.Drawing.Point(90, 34);
+            this.menuTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.menuTitle.Name = "menuTitle";
-            this.menuTitle.Size = new System.Drawing.Size(174, 51);
+            this.menuTitle.Size = new System.Drawing.Size(116, 33);
             this.menuTitle.TabIndex = 11;
-            this.menuTitle.Text = "Main Menu";
+            this.menuTitle.Text = "Epsilon";
             this.menuTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.menuTitle.Click += new System.EventHandler(this.menuTitle_Click);
             // 
             // scoresButton
             // 
@@ -83,10 +90,12 @@
             this.scoresButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.scoresButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.scoresButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.scoresButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scoresButton.Location = new System.Drawing.Point(129, 228);
+            this.scoresButton.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scoresButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.scoresButton.Location = new System.Drawing.Point(86, 148);
+            this.scoresButton.Margin = new System.Windows.Forms.Padding(2);
             this.scoresButton.Name = "scoresButton";
-            this.scoresButton.Size = new System.Drawing.Size(180, 60);
+            this.scoresButton.Size = new System.Drawing.Size(120, 39);
             this.scoresButton.TabIndex = 2;
             this.scoresButton.Text = "High Scores";
             this.scoresButton.UseVisualStyleBackColor = false;
@@ -95,16 +104,16 @@
             // 
             // MenuScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkRed;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(32)))));
+            this.BackgroundImage = global::EpsilonActual.Properties.Resources.base_R;
             this.Controls.Add(this.scoresButton);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.playButton);
             this.Controls.Add(this.menuTitle);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MenuScreen";
-            this.Size = new System.Drawing.Size(441, 406);
+            this.Size = new System.Drawing.Size(286, 254);
             this.ResumeLayout(false);
 
         }
