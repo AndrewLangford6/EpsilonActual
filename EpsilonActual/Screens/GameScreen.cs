@@ -35,7 +35,6 @@ namespace EpsilonActual
         {
 
         }
-
         int walkCounterR = 0;
         int walkCounterL = 0;
         int pShootingCounter = 0;
@@ -72,10 +71,16 @@ namespace EpsilonActual
             Bat Bat1 = new Bat(bX, bY, bH, bW);
             Bat Bat2 = new Bat(bX - 100, bY, bH, bW);
             Bat Bat3 = new Bat(bX + 300, bY, bH, bW);
+            Bat Bat4 = new Bat(bX - 400, bY, bH, bW);
+            Bat Bat5 = new Bat(bX - 200, bY, bH, bW);
+            Bat Bat6 = new Bat(bX + 500, bY, bH, bW);
 
             batList.Add(Bat1);
             batList.Add(Bat2);
             batList.Add(Bat3);
+            batList.Add(Bat4);
+            batList.Add(Bat5);
+            batList.Add(Bat6);
 
             //gamePlayer.PlayLooping();
 
@@ -202,9 +207,9 @@ namespace EpsilonActual
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            if((slimeList.Count() + batList.Count() + 7) * 100 == score)
+            if((slimeList.Count() + batList.Count() + 10) * 100 == score)
             {
-                winloseLabel.Text = "You Win!\nScore: " + score;
+                winloseLabel.Text = "You Win!\nScore: 1100";
                 winloseLabel.Visible = true;
             }
             //hitpoints
@@ -217,7 +222,6 @@ namespace EpsilonActual
                     winloseLabel.Text = "Game Over!\nScore: " + score;
                     winloseLabel.Visible = true;
                     rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
-
                 }
             }
             catch
@@ -225,6 +229,7 @@ namespace EpsilonActual
                 winloseLabel.Text = "Game Over!\nScore: " + score;
                 winloseLabel.Visible = true;
                 rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
+                heroY--;
 
             }
 
