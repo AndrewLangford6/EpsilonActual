@@ -16,10 +16,8 @@ namespace EpsilonActual
     public partial class GameScreen : UserControl
     {
         //player1 button control keys - DO NOT CHANGE
-        Boolean leftArrowDown, downArrowDown, rightArrowDown, zDown, xDown, bDown, nDown, mDown, upArrowDown;
+        Boolean leftArrowDown, downArrowDown, rightArrowDown, zDown, xDown, upArrowDown;
 
-        //player2 button control keys - DO NOT CHANGE
-        Boolean aDown, sDown, dDown, wDown, cDown, vDown, spaceDown;
 
 
         List<Slime> slimeList = new List<Slime>();
@@ -30,17 +28,8 @@ namespace EpsilonActual
         List<Bullet> bullet3List = new List<Bullet>();
         List<Bullet> bullet4List = new List<Bullet>();
 
-        // List<Ground> groundList = new List<Ground>();
 
-
-
-        private void GameScreen_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        //TODO create your global game variables here
-        int hp, score, heroX, heroY, heroSize, heroSpeed, gravity, sGravity, groundY, groundX, groundS, sX, sY, sW, sH, sSpeed, sRange, bX, bY, bW, bH, pX, pY, pW, pH;
+        int hp, score, heroX, heroY, heroSize, heroSpeed, gravity, groundY, groundX, groundS, sX, sY, sW, sH, sSpeed, sRange, bX, bY, bW, bH, pW, pH;
 
         private void scoreLabel_Click(object sender, EventArgs e)
         {
@@ -54,14 +43,10 @@ namespace EpsilonActual
 
         bool facingR = true;
         bool jumping = false;
-        SolidBrush heroBrush = new SolidBrush(Color.Yellow);
+        SolidBrush bulletBrush = new SolidBrush(Color.White);
         SolidBrush groundBrush = new SolidBrush(Color.Brown);
 
         // SoundPlayer gamePlayer = new SoundPlayer(Properties.Resources.Quiet);
-
-
-
-
 
         public GameScreen()    //Mainline
         {
@@ -71,20 +56,26 @@ namespace EpsilonActual
             Slime Slime1 = new Slime(sX, sY, sH, sW, sSpeed, sRange);
             Slime Slime2 = new Slime(sX + 600, sY, sH, sW, sSpeed, sRange);
             Slime Slime3 = new Slime(sX - 100, sY, sH, sW, sSpeed, sRange);
-            Rectangle groundRec1 = new Rectangle(groundX, groundY, groundS, 325);
+            Slime Slime4 = new Slime(sX + 200, sY, sH, sW, sSpeed, sRange);
+            Slime Slime5 = new Slime(sX + 400, sY, sH, sW, sSpeed, sRange);
+            Slime Slime6 = new Slime(sX - 300, sY, sH, sW, sSpeed, sRange);
 
-            Bat Bat1 = new Bat(bX, bY, bH, bW);
-
-            batList.Add(Bat1);
-            Bat Bat2 = new Bat(bX-100, bY, bH, bW);
-
-            batList.Add(Bat2);
-            Bat Bat3 = new Bat(bX+300, bY, bH, bW);
-
-            batList.Add(Bat3);
             slimeList.Add(Slime1);
             slimeList.Add(Slime2);
             slimeList.Add(Slime3);
+            slimeList.Add(Slime4);
+            slimeList.Add(Slime5);
+            slimeList.Add(Slime6);
+
+            Rectangle groundRec1 = new Rectangle(groundX, groundY, groundS, 325);
+
+            Bat Bat1 = new Bat(bX, bY, bH, bW);
+            Bat Bat2 = new Bat(bX - 100, bY, bH, bW);
+            Bat Bat3 = new Bat(bX + 300, bY, bH, bW);
+
+            batList.Add(Bat1);
+            batList.Add(Bat2);
+            batList.Add(Bat3);
 
             //gamePlayer.PlayLooping();
 
@@ -92,9 +83,8 @@ namespace EpsilonActual
 
         public void InitializeGameValues()
         {
-            //TODO - setup all your initial game values here. Use this method
             // each time you restart your game to reset all values. 
-            hp = 200;
+            hp = 100;
             score = 0;
 
             heroSize = 32;
@@ -122,8 +112,6 @@ namespace EpsilonActual
 
             pH = 1;
             pW = 10;
-
-            
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -171,14 +159,9 @@ namespace EpsilonActual
                     break;
                 case Keys.X:
                     xDown = true;
-                    
-
                     break;
                 case Keys.Up:
                     upArrowDown = true;
-                    break;
-                case Keys.M:
-                    mDown = true;
                     break;
             }
         }
@@ -212,21 +195,13 @@ namespace EpsilonActual
                     break;
                 case Keys.X:
                     xDown = false;
-
                     break;
-                    
             }
         }
 
-
-
-        /// <summary>
-        /// This is the Game Engine and repeats on each interval of the timer. For example
-        /// if the interval is set to 16 then it will run each 16ms or approx. 50 times
-        /// per second
-        /// </summary>
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            //hitpoints
             try
             {
                 hpLabel.Text = "hp:";
@@ -248,14 +223,16 @@ namespace EpsilonActual
                 //gamePlayer.Stop();
                 rightArrowDown = leftArrowDown = zDown = downArrowDown = false;
             }
-            
 
+            //show score
             scoreLabel.Text = "Score:  " + score;
+
+            //increase counters
             walkCounterL++;
             walkCounterR++;
             pShootingCounter++;
 
-            //TODO move main character 
+            // move main character 
             if (heroY > this.Height)
             {
                 Thread.Sleep(1000);
@@ -326,7 +303,7 @@ namespace EpsilonActual
                 }
                 foreach (Bullet bullet in bullet3List)
                 {
-                    bullet.pX = bullet.pX- heroSpeed;
+                    bullet.pX = bullet.pX - heroSpeed;
                 }
                 foreach (Bullet bullet in bullet4List)
                 {
@@ -351,7 +328,7 @@ namespace EpsilonActual
             }
             heroY = heroY + jumpSpeed;
 
-            //TODO move npc characters
+            // move npc characters
             foreach (Bat bat in batList)
             {
                 bat.bJumpingCounter++;
@@ -492,9 +469,9 @@ namespace EpsilonActual
             Refresh();
 
         }
-        //Everything that is to be drawn on the screen should be done here
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
+            //create bullets
             if (xDown)
             {
                 if (pShootingCounter > 10)
@@ -523,21 +500,10 @@ namespace EpsilonActual
                 }
             }
 
+            //create the hero recangle
             Rectangle heroRec = new Rectangle(heroX, heroY - 6, heroSize, heroSize);
-           
-           // e.Graphics.FillRectangle(groundBrush, groundX, groundY, groundS - 10, groundS);
-            //draw rectangle to screen
 
-
-
-
-
-            //Rectangle groundRec = new Rectangle(ground.groundX, ground.groundY, ground.groundS, ground.groundS);
-            //e.Graphics.DrawImage(   Properties.Resources.FLOOR , ground.groundX, ground.groundY, ground.groundS + 50, ground.groundS);
-            //e.Graphics.DrawImage(Properties.Resources.FLOOR, ground.groundX, ground.groundY - 18, ground.groundS, ground.groundS);
-
-
-
+            //drawing each bat and intersecting with hero
             foreach (Bat bat in batList)
             {
                 Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
@@ -545,21 +511,22 @@ namespace EpsilonActual
                 {
                     hp--;
                 }
-                
-               if (bat.bGravity < 0)
+
+                if (bat.bGravity < 0)
                 {
                     e.Graphics.DrawImage(Properties.Resources.bat_d, bat.bX, bat.bY, bat.bW, bat.bH);
                 }
-               else if (bat.bGravity > 7)
+                else if (bat.bGravity > 7)
                 {
                     e.Graphics.DrawImage(Properties.Resources.bat_u, bat.bX, bat.bY, bat.bW, bat.bH);
                 }
-               else
+                else
                 {
                     e.Graphics.DrawImage(Properties.Resources.bat_r, bat.bX, bat.bY, bat.bW, bat.bH);
                 }
             }
 
+            //drawing each slime and intersecting with hero
             foreach (Slime slime in slimeList)
             {
                 Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
@@ -596,6 +563,7 @@ namespace EpsilonActual
                 }
             }
 
+            //hero intersections
             if (heroX > groundX - heroSize && heroX < groundX + groundS)
             {
                 if (heroY > groundY && heroX > groundX - heroSize && heroX < groundX + groundS && facingR == true)
@@ -620,7 +588,7 @@ namespace EpsilonActual
             }
 
 
-            
+
 
 
             //hero facing
@@ -708,26 +676,30 @@ namespace EpsilonActual
                 }
             }
 
-           
 
+            //bullets, one list for each way to shoot
             foreach (Bullet bullet in bullet1List.AsEnumerable().Reverse())
             {
-                    bullet.pY = bullet.pY - 5;
-                
-                
+                bullet.pY = bullet.pY - 5;
 
-                    Rectangle b1 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
-                    e.Graphics.FillRectangle(heroBrush, b1);
-               foreach(Bat bat in batList.AsEnumerable().Reverse())
-               {
+                Rectangle b1 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
+                e.Graphics.FillRectangle(bulletBrush, b1);
+
+                if (bullet.pY < 0)
+                {
+                    bullet1List.Remove(bullet);
+                }
+
+                foreach (Bat bat in batList.AsEnumerable().Reverse())
+                {
                     Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
-                    
+
                     if (b1.IntersectsWith(batRec))
                     {
                         bullet1List.Remove(bullet);
                         batList.Remove(bat);
                         score = score + 100;
-                    }                    
+                    }
                 }
 
                 foreach (Slime slime in slimeList.AsEnumerable().Reverse())
@@ -749,19 +721,22 @@ namespace EpsilonActual
             }
             foreach (Bullet bullet in bullet2List.AsEnumerable().Reverse())
             {
-                
-                    bullet.pX = bullet.pX + 5;
 
-                    
+                bullet.pX = bullet.pX + 5;
 
-                    Rectangle b2 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
-                    e.Graphics.FillRectangle(heroBrush, b2);
+                Rectangle b2 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
+                e.Graphics.FillRectangle(bulletBrush, b2);
+
+                if (bullet.pX > this.Width)
+                {
+                    bullet1List.Remove(bullet);
+                }
 
                 foreach (Bat bat in batList.AsEnumerable().Reverse())
                 {
                     Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
 
-                    if (b2.IntersectsWith(batRec))
+                    if (b2.IntersectsWith(batRec) && bullet.pX < heroX + 147)
                     {
                         bullet2List.Remove(bullet);
                         batList.Remove(bat);
@@ -773,7 +748,7 @@ namespace EpsilonActual
                 {
                     Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
 
-                    if (b2.IntersectsWith(slimeRec))
+                    if (b2.IntersectsWith(slimeRec) && bullet.pX < heroX + 147)
                     {
                         bullet2List.Remove(bullet);
                         slimeList.Remove(slime);
@@ -784,11 +759,16 @@ namespace EpsilonActual
             }
             foreach (Bullet bullet in bullet3List.AsEnumerable().Reverse())
             {
-               
 
-                    bullet.pY = bullet.pY - 5;
-                    Rectangle b3 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
-                    e.Graphics.FillRectangle(heroBrush, b3);
+
+                bullet.pY = bullet.pY - 5;
+                Rectangle b3 = new Rectangle(bullet.pX, bullet.pY, bullet.pH, bullet.pW);
+                e.Graphics.FillRectangle(bulletBrush, b3);
+
+                if (bullet.pY < 0)
+                {
+                    bullet1List.Remove(bullet);
+                }
 
                 foreach (Bat bat in batList.AsEnumerable().Reverse())
                 {
@@ -820,14 +800,19 @@ namespace EpsilonActual
 
                 bullet.pX = bullet.pX - 5;
 
-                    Rectangle b4 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
-                    e.Graphics.FillRectangle(heroBrush, b4);
+                if (bullet.pX < 0)
+                {
+                    bullet1List.Remove(bullet);
+                }
+
+                Rectangle b4 = new Rectangle(bullet.pX, bullet.pY, bullet.pW, bullet.pH);
+                e.Graphics.FillRectangle(bulletBrush, b4);
 
                 foreach (Bat bat in batList.AsEnumerable().Reverse())
                 {
                     Rectangle batRec = new Rectangle(bat.bX, bat.bY, bat.bW, bat.bH);
 
-                    if (b4.IntersectsWith(batRec))
+                    if (b4.IntersectsWith(batRec) && bullet.pX > heroX - 147)
                     {
                         bullet4List.Remove(bullet);
                         batList.Remove(bat);
@@ -838,7 +823,7 @@ namespace EpsilonActual
                 {
                     Rectangle slimeRec = new Rectangle(slime.sX, slime.sY, slime.sW, slime.sH);
 
-                    if (b4.IntersectsWith(slimeRec))
+                    if (b4.IntersectsWith(slimeRec) && bullet.pX > heroX - 147)
                     {
                         bullet4List.Remove(bullet);
                         slimeList.Remove(slime);
@@ -849,7 +834,7 @@ namespace EpsilonActual
             }
 
 
-            
+
 
 
             e.Graphics.DrawImage(Properties.Resources.floor_complete, groundX, groundY - 16, groundS, groundS - 675);
