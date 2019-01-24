@@ -11,6 +11,9 @@ using GameSystemServices;
 using System.Threading;
 using System.Media;
 
+/// Recration of Cave Story: Epsilon
+/// Andrew Langford
+/// January 24th, 2019
 
 namespace EpsilonActual
 {
@@ -82,9 +85,8 @@ namespace EpsilonActual
             batList.Add(Bat4);
             batList.Add(Bat5);
             batList.Add(Bat6);
+
             
-
-
             gamePlayer.PlayLooping();
 
         }

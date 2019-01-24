@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GameSystemServices;
+using System.Media;
 
 namespace EpsilonActual
 {
@@ -18,7 +19,7 @@ namespace EpsilonActual
         public MainForm()
         {
             InitializeComponent();
-
+            titlePlayer.PlayLooping();
             Cursor.Hide();
 
             // open the main menu for the game
