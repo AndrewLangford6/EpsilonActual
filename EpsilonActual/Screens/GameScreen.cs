@@ -110,7 +110,7 @@ namespace EpsilonActual
             groundX = -338;
             groundS = 1000;
 
-            bX = 10;
+            bX = -6;
             bY = groundY - 50;
             bW = 32;
             bH = 32;
