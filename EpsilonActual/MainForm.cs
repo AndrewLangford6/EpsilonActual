@@ -19,7 +19,6 @@ namespace EpsilonActual
         public MainForm()
         {
             InitializeComponent();
-            titlePlayer.PlayLooping();
             Cursor.Hide();
 
             // open the main menu for the game
