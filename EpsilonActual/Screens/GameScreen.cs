@@ -11,13 +11,14 @@ using GameSystemServices;
 using System.Threading;
 using System.Media;
 
+
 namespace EpsilonActual
 {
     public partial class GameScreen : UserControl
     {
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, downArrowDown, rightArrowDown, zDown, xDown, upArrowDown;
-
+        
 
 
         List<Slime> slimeList = new List<Slime>();
@@ -45,7 +46,7 @@ namespace EpsilonActual
         SolidBrush bulletBrush = new SolidBrush(Color.White);
         SolidBrush groundBrush = new SolidBrush(Color.Brown);
 
-        // SoundPlayer gamePlayer = new SoundPlayer(Properties.Resources.Quiet);
+       
 
         public GameScreen()    //Mainline
         {
@@ -81,8 +82,10 @@ namespace EpsilonActual
             batList.Add(Bat4);
             batList.Add(Bat5);
             batList.Add(Bat6);
+            
 
-            //gamePlayer.PlayLooping();
+
+            gamePlayer.Play();
 
         }
 
