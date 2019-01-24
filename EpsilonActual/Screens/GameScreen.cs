@@ -18,8 +18,8 @@ namespace EpsilonActual
     {
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, downArrowDown, rightArrowDown, zDown, xDown, upArrowDown;
-        
 
+        SoundPlayer gamePlayer = new SoundPlayer(Properties.Resources.Quiet);
 
         List<Slime> slimeList = new List<Slime>();
         List<Bat> batList = new List<Bat>();
@@ -85,7 +85,7 @@ namespace EpsilonActual
             
 
 
-            gamePlayer.Play();
+            gamePlayer.PlayLooping();
 
         }
 
@@ -130,6 +130,7 @@ namespace EpsilonActual
             {
                 winloseLabel.Visible = false;
                 gameTimer.Enabled = false;
+                gamePlayer.Stop();
                 rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
 
                 DialogResult result = PauseForm.Show();
@@ -143,9 +144,7 @@ namespace EpsilonActual
                     MainForm.ChangeScreen(this, "MenuScreen");
                 }
             }
-
-            //TODO - basic player 1 key down bools set below. Add remainging key down
-            // required for player 1 or player 2 here.
+            
 
             //player 1 button presses
             switch (e.KeyCode)
@@ -212,8 +211,9 @@ namespace EpsilonActual
         {
             if((slimeList.Count() + batList.Count() + 10) * 100 == score)
             {
-                winloseLabel.Text = "You Win!\nScore: 1100";
+                winloseLabel.Text = "You Win!\n Press Escape to Continue";
                 winloseLabel.Visible = true;
+                rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
             }
             //hitpoints
             try
@@ -222,14 +222,14 @@ namespace EpsilonActual
                 hpBar.Value = hp;
                 if (hp <= 1)
                 {
-                    winloseLabel.Text = "Game Over!\nScore: " + score;
+                    winloseLabel.Text = "Game Over!\n Press Escape to Continue";
                     winloseLabel.Visible = true;
                     rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
                 }
             }
             catch
             {
-                winloseLabel.Text = "Game Over!\nScore: " + score;
+                winloseLabel.Text = "Game Over!\n Press Escape to Continue";
                 winloseLabel.Visible = true;
                 rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
                 heroY--;
@@ -247,7 +247,7 @@ namespace EpsilonActual
             // move main character 
             if (heroY > this.Height)
             {
-                winloseLabel.Text = "Game Over!\nScore: " + score;
+                winloseLabel.Text = "Game Over!\n Press Escape to Continue";
                 winloseLabel.Visible = true;
                 rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
             }
