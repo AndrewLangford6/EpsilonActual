@@ -84,7 +84,7 @@ namespace EpsilonActual
         public void InitializeGameValues()
         {
             // each time you restart your game to reset all values. 
-            hp = 100;
+            hp = 200;
             score = 0;
 
             heroSize = 32;
@@ -120,8 +120,9 @@ namespace EpsilonActual
             // on pause screen the program will either continue or exit to main menu
             if (e.KeyCode == Keys.Escape && gameTimer.Enabled)
             {
+                winloseLabel.Visible = false;
                 gameTimer.Enabled = false;
-                rightArrowDown = leftArrowDown = zDown = downArrowDown = upArrowDown = false;
+                rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
 
                 DialogResult result = PauseForm.Show();
 
@@ -201,6 +202,11 @@ namespace EpsilonActual
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            if((slimeList.Count() + batList.Count() + 7) * 100 == score)
+            {
+                winloseLabel.Text = "You Win!\nScore: " + score;
+                winloseLabel.Visible = true;
+            }
             //hitpoints
             try
             {
@@ -208,20 +214,18 @@ namespace EpsilonActual
                 hpBar.Value = hp;
                 if (hp <= 1)
                 {
-                    Thread.Sleep(1000);
-                    MainForm.ChangeScreen(this, "MenuScreen");
-                    gameTimer.Enabled = false;
-                    //gamePlayer.Stop();
-                    rightArrowDown = leftArrowDown = zDown = downArrowDown = false;
+                    winloseLabel.Text = "Game Over!\nScore: " + score;
+                    winloseLabel.Visible = true;
+                    rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
+
                 }
             }
             catch
             {
-                Thread.Sleep(1000);
-                MainForm.ChangeScreen(this, "MenuScreen");
-                gameTimer.Enabled = false;
-                //gamePlayer.Stop();
-                rightArrowDown = leftArrowDown = zDown = downArrowDown = false;
+                winloseLabel.Text = "Game Over!\nScore: " + score;
+                winloseLabel.Visible = true;
+                rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
+
             }
 
             //show score
@@ -235,11 +239,9 @@ namespace EpsilonActual
             // move main character 
             if (heroY > this.Height)
             {
-                Thread.Sleep(1000);
-                MainForm.ChangeScreen(this, "MenuScreen");
-                gameTimer.Enabled = false;
-                //gamePlayer.Stop();
-                rightArrowDown = leftArrowDown = zDown = downArrowDown = false;
+                winloseLabel.Text = "Game Over!\nScore: " + score;
+                winloseLabel.Visible = true;
+                rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
             }
             if (jumping && gravity < 0)
             {

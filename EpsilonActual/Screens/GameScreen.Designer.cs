@@ -33,6 +33,7 @@
             this.hpLabel = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
             this.hpBar = new System.Windows.Forms.ProgressBar();
+            this.winloseLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -73,11 +74,24 @@
             this.hpBar.Size = new System.Drawing.Size(100, 12);
             this.hpBar.TabIndex = 2;
             // 
+            // winloseLabel
+            // 
+            this.winloseLabel.BackColor = System.Drawing.Color.Transparent;
+            this.winloseLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.winloseLabel.Font = new System.Drawing.Font("Comic Sans MS", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.winloseLabel.ForeColor = System.Drawing.Color.DarkRed;
+            this.winloseLabel.Location = new System.Drawing.Point(66, 39);
+            this.winloseLabel.Name = "winloseLabel";
+            this.winloseLabel.Size = new System.Drawing.Size(185, 84);
+            this.winloseLabel.TabIndex = 3;
+            this.winloseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // GameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(32)))));
+            this.Controls.Add(this.winloseLabel);
             this.Controls.Add(this.hpBar);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.hpLabel);
@@ -97,5 +111,6 @@
         private System.Windows.Forms.Label scoreLabel;
         private System.Windows.Forms.ProgressBar hpBar;
         public System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Label winloseLabel;
     }
 }
