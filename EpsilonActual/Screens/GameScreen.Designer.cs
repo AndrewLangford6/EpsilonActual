@@ -80,11 +80,11 @@
             this.winloseLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.winloseLabel.Font = new System.Drawing.Font("Comic Sans MS", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.winloseLabel.ForeColor = System.Drawing.Color.DarkRed;
-            this.winloseLabel.Location = new System.Drawing.Point(66, 39);
+            this.winloseLabel.Location = new System.Drawing.Point(3, 34);
             this.winloseLabel.Name = "winloseLabel";
-            this.winloseLabel.Size = new System.Drawing.Size(185, 84);
+            this.winloseLabel.Size = new System.Drawing.Size(319, 241);
             this.winloseLabel.TabIndex = 3;
-            this.winloseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.winloseLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // GameScreen
             // 

@@ -234,5 +234,8 @@
   <ItemGroup>
     <None Include="Resources\Quiet.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cave Story.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

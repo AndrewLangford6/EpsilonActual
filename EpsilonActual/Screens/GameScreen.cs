@@ -20,7 +20,7 @@ namespace EpsilonActual
         Boolean leftArrowDown, downArrowDown, rightArrowDown, zDown, xDown, upArrowDown;
 
         SoundPlayer gamePlayer = new SoundPlayer(Properties.Resources.Quiet);
-
+        
         List<Slime> slimeList = new List<Slime>();
         List<Bat> batList = new List<Bat>();
 
@@ -211,7 +211,7 @@ namespace EpsilonActual
         {
             if((slimeList.Count() + batList.Count() + 10) * 100 == score)
             {
-                winloseLabel.Text = "You Win!\n Press Escape to Continue";
+                winloseLabel.Text = "You Win!\n Score: " + score + "\n Press Escape to Continue";
                 winloseLabel.Visible = true;
                 rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
             }
@@ -222,14 +222,14 @@ namespace EpsilonActual
                 hpBar.Value = hp;
                 if (hp <= 1)
                 {
-                    winloseLabel.Text = "Game Over!\n Press Escape to Continue";
+                    winloseLabel.Text = "Game Over!\n Score: " + score + "\n Press Escape to Continue";
                     winloseLabel.Visible = true;
                     rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
                 }
             }
             catch
             {
-                winloseLabel.Text = "Game Over!\n Press Escape to Continue";
+                winloseLabel.Text = "Game Over!\n Score: " + score + "\n Press Escape to Continue";
                 winloseLabel.Visible = true;
                 rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
                 heroY--;
@@ -247,7 +247,7 @@ namespace EpsilonActual
             // move main character 
             if (heroY > this.Height)
             {
-                winloseLabel.Text = "Game Over!\n Press Escape to Continue";
+                winloseLabel.Text = "Game Over!\n Score: " + score + "\n Press Escape to Continue";
                 winloseLabel.Visible = true;
                 rightArrowDown = leftArrowDown = zDown = xDown = downArrowDown = upArrowDown = false;
             }
